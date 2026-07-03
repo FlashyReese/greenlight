@@ -1,0 +1,26 @@
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.vscode/
+*.code-workspace
+
+# Gradle / build
+.gradle/
+build/
+run/
+
+# Compiled / packaged
+*.class
+*.jar
+*.war
+*.log
+
+# ...but keep the Gradle wrapper jar (must be committed so the repo is buildable)
+!gradle/wrapper/gradle-wrapper.jar
+
+# OS
+.DS_Store
+*~

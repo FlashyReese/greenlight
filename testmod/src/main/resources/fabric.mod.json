@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "greenlight-testmod",
+  "version": "${version}",
+  "name": "Greenlight Test Mod",
+  "description": "Dev harness that exercises Greenlight against a real client and server.",
+  "license": "LGPL-3.0-or-later",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.flashyreese.mods.greenlight.testmod.GreenlightTestmod"
+    ],
+    "fabric-client-gametest": [
+      "me.flashyreese.mods.greenlight.testmod.GreenlightClientGametest"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19",
+    "java": ">=25",
+    "minecraft": ">=26 <27",
+    "fabric-networking-api-v1": "*"
+  }
+}

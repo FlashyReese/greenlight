@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "greenlight",
+  "version": "${version}",
+  "name": "Greenlight",
+  "description": "A loader-neutral library for server-authorized gameplay-affecting client features.",
+  "authors": [
+    {
+      "name": "FlashyReese",
+      "contact": {
+        "homepage": "https://flashyreese.me"
+      }
+    }
+  ],
+  "contact": {
+    "sources": "https://github.com/FlashyReese/greenlight",
+    "issues": "https://github.com/FlashyReese/greenlight/issues"
+  },
+  "license": "LGPL-3.0-or-later",
+  "icon": "assets/greenlight/icon.png",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=0.19",
+    "java": ">=25",
+    "minecraft": ">=26 <27"
+  }
+}

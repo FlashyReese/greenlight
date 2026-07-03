@@ -1,0 +1,31 @@
+modLoader = "javafml"
+loaderVersion = "*"
+license = "LGPL-3.0-or-later"
+issueTrackerURL = "https://github.com/FlashyReese/greenlight/issues"
+
+[[mods]]
+modId = "greenlight"
+version = "${version}"
+displayName = "Greenlight"
+logoFile = "assets/greenlight/icon.png"
+authors = "FlashyReese"
+description = '''
+A loader-neutral library for server-authorized gameplay-affecting client features.
+'''
+
+[[dependencies.greenlight]]
+modId = "minecraft"
+type = "required"
+versionRange = "[26,27)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.greenlight]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26,27)"
+ordering = "NONE"
+side = "CLIENT"
+
+[features.greenlight]
+javaVersion = "[25,)"

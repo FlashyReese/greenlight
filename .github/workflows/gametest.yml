@@ -1,0 +1,36 @@
+name: Client Game Test
+
+on: [push]
+
+jobs:
+  gametest:
+    if: github.repository_owner == 'FlashyReese'
+    runs-on: self-hosted
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v2
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 25
+          check-latest: true
+      - name: Accept EULA for the test dedicated server
+        run: |
+          mkdir -p testmod/run/gametest
+          echo "eula=true" > testmod/run/gametest/eula.txt
+      - name: Run client gametest
+        run: xvfb-run -a ./gradlew :testmod:runGametestClient --stacktrace
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gametest-logs
+          path: |
+            testmod/run/gametest/logs/
+            testmod/run/gametest/screenshots/
+          if-no-files-found: ignore

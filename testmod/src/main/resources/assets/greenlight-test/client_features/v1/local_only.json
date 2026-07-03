@@ -1,0 +1,7 @@
+{
+  "protocol_version": 1,
+  "feature": "greenlight-test:local_only",
+  "enabled": true,
+  "settings_version": 1,
+  "settings": { "max": 50 }
+}
