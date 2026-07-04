@@ -3,13 +3,13 @@ import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 
 plugins {
     id("java")
-    id("net.fabricmc.fabric-loom") version ("1.17.11") apply (false)
+    id("net.fabricmc.fabric-loom-remap") version ("1.17.13") apply (false)
 }
 
-val MINECRAFT_VERSION by extra { "26.2" }
-val NEOFORGE_VERSION by extra { "26.2.0.1-beta" }
+val MINECRAFT_VERSION by extra { "1.21.11" }
+val NEOFORGE_VERSION by extra { "21.11.42" }
 val FABRIC_LOADER_VERSION by extra { "0.19.3" }
-val FABRIC_API_VERSION by extra { "0.152.1+26.2" } // testmod only
+val FABRIC_API_VERSION by extra { "0.141.4+1.21.11" } // testmod only
 
 val MAVEN_GROUP by extra { "me.flashyreese.mods" }
 val ARCHIVE_NAME by extra { "greenlight" }
@@ -32,6 +32,7 @@ subprojects {
     apply(plugin = "maven-publish")
 
     repositories {
+        maven("https://maven.fabricmc.net/")
         maven("https://maven.parchmentmc.org/")
         maven("https://maven.neoforged.net/releases/")
         maven("https://libraries.minecraft.net")
@@ -41,14 +42,14 @@ subprojects {
         archivesName = "$ARCHIVE_NAME-${project.name}"
     }
 
-    java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
     version = modVersion
     group = "me.flashyreese.mods"
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.release.set(25)
+        options.release.set(21)
     }
 
     tasks.withType<GenerateModuleMetadata>().configureEach {

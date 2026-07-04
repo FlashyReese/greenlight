@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("idea")
-    id("net.fabricmc.fabric-loom") version ("1.17.11")
+    id("net.fabricmc.fabric-loom-remap") version ("1.17.13")
 }
 
 val MINECRAFT_VERSION: String by rootProject.extra
@@ -14,8 +14,8 @@ base {
 
 dependencies {
     minecraft("com.mojang:minecraft:${MINECRAFT_VERSION}")
-    compileOnly("net.fabricmc:fabric-loader:$FABRIC_LOADER_VERSION")
-    runtimeOnly("net.fabricmc:fabric-loader:$FABRIC_LOADER_VERSION")
+    mappings(loom.officialMojangMappings())
+    modImplementation("net.fabricmc:fabric-loader:$FABRIC_LOADER_VERSION")
     testCompileOnly("net.fabricmc:fabric-loader:$FABRIC_LOADER_VERSION")
 
     compileOnly(project(":api"))

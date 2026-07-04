@@ -68,7 +68,7 @@ tasks.withType<ProcessResources>().matching(notNeoTask).configureEach {
     }
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 publishing {
     publications {

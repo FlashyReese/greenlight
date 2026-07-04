@@ -163,8 +163,8 @@ public class GreenlightClientGametest implements FabricClientGameTest {
                     {
                       "pack": {
                         "description": "Greenlight gametest policy",
-                        "min_format": [88, 0],
-                        "max_format": [88, 0]
+                        "min_format": [75, 0],
+                        "max_format": [75, 0]
                       }
                     }
                     """);
