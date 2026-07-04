@@ -85,7 +85,7 @@ public final class ClientFeature<T> {
 
         try {
             // Decoders get a copy so they cannot mutate the engine's cached policy.
-            return Optional.ofNullable(this.decoder.decode(policy.settings().deepCopy()));
+            return Optional.ofNullable(this.decoder.decode(JsonCopies.copy(policy.settings())));
         } catch (Exception e) {
             Greenlight.logDecodeFailure(this.id, e);
             return Optional.empty();

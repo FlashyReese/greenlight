@@ -74,7 +74,7 @@ public final class Greenlight {
      * @return a builder for registering the feature
      */
     public static ClientFeature.Builder<JsonObject> feature(ResourceLocation featureId) {
-        return new ClientFeature.Builder<>(featureId, 1, JsonObject::deepCopy);
+        return new ClientFeature.Builder<>(featureId, 1, JsonCopies::copy);
     }
 
     /**
@@ -121,7 +121,7 @@ public final class Greenlight {
             return Optional.empty();
         }
 
-        return Optional.of(query.policy().settings().deepCopy());
+        return Optional.of(JsonCopies.copy(query.policy().settings()));
     }
 
     /**
