@@ -6,10 +6,10 @@ plugins {
     id("net.fabricmc.fabric-loom-remap") version ("1.17.13") apply (false)
 }
 
-val MINECRAFT_VERSION by extra { "1.20.6" }
-val NEOFORGE_VERSION by extra { "20.6.139" }
+val MINECRAFT_VERSION by extra { "1.20.4" }
+val NEOFORGE_VERSION by extra { "20.4.251" }
 val FABRIC_LOADER_VERSION by extra { "0.19.3" }
-val FABRIC_API_VERSION by extra { "0.100.8+1.20.6" } // testmod only
+val FABRIC_API_VERSION by extra { "0.97.3+1.20.4" } // testmod only
 
 val MAVEN_GROUP by extra { "me.flashyreese.mods" }
 val ARCHIVE_NAME by extra { "greenlight" }
@@ -42,14 +42,14 @@ subprojects {
         archivesName = "$ARCHIVE_NAME-${project.name}"
     }
 
-    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
     version = modVersion
     group = "me.flashyreese.mods"
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.release.set(21)
+        options.release.set(17)
     }
 
     tasks.withType<GenerateModuleMetadata>().configureEach {

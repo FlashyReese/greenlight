@@ -62,13 +62,16 @@ tasks.withType<Javadoc>().matching(notNeoTask).configureEach {
 tasks.withType<ProcessResources>().matching(notNeoTask).configureEach {
     from(project(":api").sourceSets.main.get().resources)
     from(project(":common").sourceSets.main.get().resources)
+    from(project(":common").layout.projectDirectory.file("src/main/resources/assets/greenlight/icon.png")) {
+        rename { "greenlight-icon.png" }
+    }
     inputs.property("version", modVersion)
-    filesMatching("META-INF/neoforge.mods.toml") {
+    filesMatching(listOf("META-INF/mods.toml", "META-INF/neoforge.mods.toml")) {
         expand(mapOf("version" to modVersion))
     }
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 publishing {
     publications {

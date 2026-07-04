@@ -1,9 +1,7 @@
 {
   "pack": {
     "description": "Greenlight testmod sample policy",
-    "pack_format": 32,
-    "supported_formats": [32, 69],
-    "min_format": [32, 0],
-    "max_format": [69, 0]
+    "pack_format": 22,
+    "supported_formats": [22, 22]
   }
 }
