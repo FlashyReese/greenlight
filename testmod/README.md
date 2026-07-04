@@ -3,7 +3,7 @@
 A dev-only Fabric mod that exercises Greenlight end to end. It registers a sample feature
 (`greenlight-test:sample`, schema v1, one setting `max`) and logs what the current server
 grants each time you join a world. This is the manual counterpart to the unit tests: the
-trust boundary (only a real required **server** pack grants anything) can't be checked
+trust boundary (only a real **server** pack grants anything) can't be checked
 headless, so it's verified here.
 
 Not published. It bundles the Greenlight API/runtime sources plus the sample consumer.
@@ -11,13 +11,12 @@ Not published. It bundles the Greenlight API/runtime sources plus the sample con
 ## Run it
 
 1. `./gradlew :testmod:runClient`
-2. Serve `sample-server-pack/` as a **required** resource pack on a dev server. Zip its
+2. Serve `sample-server-pack/` as a server resource pack on a dev server. Zip its
    contents (not the folder), then in `server.properties`:
 
    ```properties
    resource-pack=http://<host>/sample-server-pack.zip
    resource-pack-sha1=<sha1 of the zip>
-   require-resource-pack=true
    ```
 
    A quick local host: `cd testmod && python3 -m http.server 8000`, then point
@@ -42,7 +41,7 @@ authorize anything, even with identical JSON.
 
 `GreenlightClientGametest` (a Fabric client gametest) automates both halves with no manual
 steps: it hosts the sample pack over HTTP in-process, stands up a dedicated server that
-pushes it as a **required** pack, connects a real client (pre-accepting the pack), and
+pushes it as an optional pack, connects a real client (pre-accepting the pack), and
 asserts the sample feature is granted with `max = 16`. It exercises the genuine
 `PackSource.SERVER` download path, which the headless unit tests can't.
 

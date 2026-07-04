@@ -42,7 +42,7 @@ loom {
             runDirectory.set(layout.projectDirectory.dir("run"))
         }
         // Headless end-to-end test: boots a real client, stands up a dedicated server with the
-        // sample required pack, connects, and asserts Greenlight sees the grant. Run under a
+        // sample server pack, connects, and asserts Greenlight sees the grant. Run under a
         // virtual display in CI (e.g. xvfb-run ./gradlew :testmod:runGametestClient).
         create("gametestClient") {
             client()

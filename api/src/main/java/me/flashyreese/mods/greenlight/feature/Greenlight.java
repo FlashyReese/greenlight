@@ -16,7 +16,7 @@ import java.util.Set;
  *
  * <p>Use this when your mod has a gameplay-affecting client feature that should stay off on
  * multiplayer unless the server has explicitly allowed it. Servers usually publish that
- * permission through a required server resource pack at
+ * permission through a server resource pack at
  * {@code assets/<feature_namespace>/client_features/v1/<feature_path>.json}. Advanced
  * integrations can also provide policies through {@link FeaturePolicySource}.
  *

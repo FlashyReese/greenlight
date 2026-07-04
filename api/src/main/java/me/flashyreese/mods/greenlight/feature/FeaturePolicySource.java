@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Advanced integration point for delivering server policy to the client.
  *
- * <p>Most mods should rely on the built-in required resource pack source. Implement this
+ * <p>Most mods should rely on the built-in server resource pack source. Implement this
  * only when you have another trusted server channel, such as a custom payload from a
  * server-side mod that can update or revoke policy while the player is connected.
  *
@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public interface FeaturePolicySource {
     /**
-     * Priority of the built-in required resource pack source.
+     * Priority of the built-in server resource pack source.
      *
      * <p>Live sources that can update or revoke policy mid-session, such as custom network
      * payloads, should use a higher priority.

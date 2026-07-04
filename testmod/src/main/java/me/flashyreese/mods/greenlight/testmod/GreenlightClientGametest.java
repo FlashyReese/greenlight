@@ -31,7 +31,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * End-to-end check of the trust boundary that can't be unit-tested: a real client connects to a
- * dedicated server that pushes a required resource pack carrying the sample policy, and Greenlight
+ * dedicated server that pushes a resource pack carrying the sample policy, and Greenlight
  * must grant the feature (clamped to the server's {@code max}) only because the pack arrived as a
  * genuine {@code PackSource.SERVER} download.
  *
@@ -42,7 +42,7 @@ public class GreenlightClientGametest implements FabricClientGameTest {
     private static final int EXPECTED_MAX = 16;
     private static final Identifier LOCAL_ONLY_POLICY_RESOURCE =
             Identifier.fromNamespaceAndPath("greenlight-test", "client_features/v1/local_only.json");
-    // Connecting, downloading the required pack over HTTP, and the client resource reload it
+    // Connecting, downloading the server pack over HTTP, and the client resource reload it
     // triggers all happen before the world loads. The wait is tick-based, but the client can
     // idle-tick quickly through the budget while a slow reload runs in wall time, so keep this
     // generous because underpowered CI runners reload much slower. It costs nothing on success (the
@@ -61,7 +61,6 @@ public class GreenlightClientGametest implements FabricClientGameTest {
             Properties props = new Properties();
             props.setProperty("resource-pack", "http://127.0.0.1:" + packPort + "/pack.zip");
             props.setProperty("resource-pack-sha1", sha1Hex(packZip));
-            props.setProperty("require-resource-pack", "true");
 
             try (TestDedicatedServerContext server = context.worldBuilder().createServer(props)) {
                 int serverPort = server.computeOnServer(MinecraftServer::getPort);
@@ -75,13 +74,13 @@ public class GreenlightClientGametest implements FabricClientGameTest {
                         GreenlightTestmod.SAMPLE.policy().map(GreenlightTestmod.SamplePolicy::max).orElse(-1));
 
                 if (!granted) {
-                    throw new AssertionError("sample feature was not granted by the required server pack");
+                    throw new AssertionError("sample feature was not granted by the server pack");
                 }
                 if (max != EXPECTED_MAX) {
                     throw new AssertionError("expected max " + EXPECTED_MAX + " from server policy, got " + max);
                 }
 
-                LOGGER.info("PASS: required server pack granted sample feature with max = {}", max);
+                LOGGER.info("PASS: server pack granted sample feature with max = {}", max);
 
                 assertClientSidePackCannotAuthorize(context, max);
 

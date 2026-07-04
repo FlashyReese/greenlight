@@ -9,9 +9,9 @@ Install it when another mod says it supports or requires Greenlight.
 
 ## How It Works
 
-A server can authorize a feature by shipping a small policy file in its required resource
-pack. Greenlight only trusts policy from the current server's required pack. Local resource
-packs with the same files do not grant anything.
+A server can authorize a feature by shipping a small policy file in its server resource
+pack. Greenlight only trusts policy from resource packs Minecraft marks as coming from the
+current server. Local resource packs with the same files do not grant anything.
 
 When the player leaves the server, the grants go away and compatible mods should return to
 their default-deny behavior.

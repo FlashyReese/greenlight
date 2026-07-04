@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Built-in policy source for required server resource packs.
+ * Built-in policy source for server resource packs.
  *
  * <p>It reads {@code assets/<feature_namespace>/client_features/v1/<feature_path>.json} from
- * packs that Minecraft marked as downloaded from the current server. Local, built-in, world,
- * and optional packs never grant a policy, even when they contain the same JSON.
+ * packs that Minecraft marked as downloaded from the current server. Local, built-in, and
+ * world packs never grant a policy, even when they contain the same JSON.
  *
  * <p>The fingerprint is the set of trusted server pack IDs. When the server pack goes away,
  * the fingerprint changes and the grant disappears.
@@ -67,10 +67,7 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
     private static List<String> collectTrustedServerPackIds(PackRepository repository) {
         List<String> trustedPackIds = new ArrayList<>();
         for (Pack pack : repository.getSelectedPacks()) {
-            if (pack.getPackSource() == PackSource.SERVER
-                    && pack.isRequired()
-                    && pack.isFixedPosition()
-                    && pack.getDefaultPosition() == Pack.Position.TOP) {
+            if (pack.getPackSource() == PackSource.SERVER) {
                 trustedPackIds.add(pack.getId());
             }
         }

@@ -13,15 +13,14 @@ own Greenlight features.
 
 ## How Greenlight Trusts a Server Policy
 
-1. The server sends a required resource pack using `resource-pack` and
-   `require-resource-pack=true` in `server.properties`, or the equivalent server API.
+1. The server sends a resource pack using `resource-pack` in `server.properties`, or the
+   equivalent server API. The pack can be required or optional.
 2. Minecraft marks downloaded server packs with `PackSource.SERVER`. Greenlight only trusts
-   selected packs that are server-sourced, required, fixed in position, and placed at the
-   top of the pack stack.
-3. Local packs, world packs, built-in packs, and normal optional packs do not grant
-   features, even if they contain byte-for-byte identical JSON.
-4. When the server pack is removed on disconnect, login failure, or pack removal, the grant
-   disappears and the client returns to default deny.
+   selected packs that are server-sourced.
+3. Local packs, world packs, and built-in packs do not grant features, even if they contain
+   byte-for-byte identical JSON.
+4. When the server pack is removed on disconnect, login failure, pack rejection, or pack
+   removal, the grant disappears and the client returns to default deny.
 
 This is a client-side permission signal, not enforcement. Greenlight helps compatible mods
 respect a server's policy. It cannot stop a modified client from ignoring that policy.
@@ -98,7 +97,7 @@ If several trusted server packs declare the same feature, the topmost trusted de
 the pack stack wins. If that topmost declaration is unreadable, Greenlight denies the
 feature instead of falling back to a lower pack.
 
-The required resource pack is the built-in policy source at priority `0`. Advanced
+The server resource pack is the built-in policy source at priority `0`. Advanced
 integrations can register additional sources, such as a custom network payload from a
 server-side mod. For each feature, the highest-priority source that declares a policy wins.
 A disabled policy counts as a declaration and can revoke a lower-priority grant.
