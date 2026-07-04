@@ -1,6 +1,6 @@
 package me.flashyreese.mods.greenlight.feature;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,19 +10,19 @@ import java.util.Map;
  * fingerprint so the engine reloads on the next query, mimicking a live policy change.
  */
 final class FakePolicySource implements FeaturePolicySource {
-    private final Identifier id;
+    private final ResourceLocation id;
     private final int priority;
-    private final Map<Identifier, FeaturePolicy> policies = new HashMap<>();
+    private final Map<ResourceLocation, FeaturePolicy> policies = new HashMap<>();
 
     private Object fingerprint = new Object();
     boolean throwOnLoad = false;
 
     FakePolicySource(String id, int priority) {
-        this.id = Identifier.fromNamespaceAndPath("greenlight-test", id);
+        this.id = ResourceLocation.fromNamespaceAndPath("greenlight-test", id);
         this.priority = priority;
     }
 
-    FakePolicySource put(Identifier feature, FeaturePolicy policy) {
+    FakePolicySource put(ResourceLocation feature, FeaturePolicy policy) {
         this.policies.put(feature, policy);
         this.fingerprint = new Object();
         return this;
@@ -34,7 +34,7 @@ final class FakePolicySource implements FeaturePolicySource {
     }
 
     @Override
-    public Identifier id() {
+    public ResourceLocation id() {
         return this.id;
     }
 
@@ -49,7 +49,7 @@ final class FakePolicySource implements FeaturePolicySource {
     }
 
     @Override
-    public Map<Identifier, FeaturePolicy> load() {
+    public Map<ResourceLocation, FeaturePolicy> load() {
         if (this.throwOnLoad) {
             throw new RuntimeException("simulated source failure");
         }

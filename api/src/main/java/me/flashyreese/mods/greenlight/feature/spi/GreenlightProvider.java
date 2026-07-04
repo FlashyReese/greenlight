@@ -3,7 +3,7 @@ package me.flashyreese.mods.greenlight.feature.spi;
 import me.flashyreese.mods.greenlight.feature.ClientFeature;
 import me.flashyreese.mods.greenlight.feature.FeaturePolicy;
 import me.flashyreese.mods.greenlight.feature.FeaturePolicySource;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Set;
 
@@ -44,12 +44,12 @@ public interface GreenlightProvider {
      * @param featureId feature to query
      * @return raw query result
      */
-    PolicyQuery query(Identifier featureId);
+    PolicyQuery query(ResourceLocation featureId);
 
     /**
      * Lists currently granted feature IDs.
      *
      * @return granted feature IDs
      */
-    Set<Identifier> getGrantedFeatures();
+    Set<ResourceLocation> getGrantedFeatures();
 }

@@ -1,7 +1,7 @@
 package me.flashyreese.mods.greenlight.feature;
 
 import me.flashyreese.mods.greenlight.feature.spi.GreenlightProvider;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Set;
 
@@ -20,12 +20,12 @@ public final class GreenlightRuntimeProvider implements GreenlightProvider {
     }
 
     @Override
-    public PolicyQuery query(Identifier featureId) {
+    public PolicyQuery query(ResourceLocation featureId) {
         return ClientFeaturePolicyManager.query(featureId);
     }
 
     @Override
-    public Set<Identifier> getGrantedFeatures() {
+    public Set<ResourceLocation> getGrantedFeatures() {
         return ClientFeaturePolicyManager.getGrantedFeatures();
     }
 }

@@ -22,8 +22,8 @@ dependencies {
     fabricModule("fabric-api-base")
     fabricModule("fabric-networking-api-v1")
     fabricModule("fabric-client-gametest-api-v1")
-    // client-gametest depends on the resource loader at runtime; without it the mod fails to load.
-    fabricModule("fabric-resource-loader-v1")
+    // The 1.21.10 client-gametest module still depends on the v0 resource loader at runtime.
+    fabricModule("fabric-resource-loader-v0")
 
     compileOnly(project(":api"))
     compileOnly(project(":common"))

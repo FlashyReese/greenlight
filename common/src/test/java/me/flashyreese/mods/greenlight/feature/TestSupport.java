@@ -1,7 +1,7 @@
 package me.flashyreese.mods.greenlight.feature;
 
 import com.google.gson.JsonObject;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,8 +15,8 @@ final class TestSupport {
     private TestSupport() {
     }
 
-    static Identifier uniqueFeature() {
-        return Identifier.fromNamespaceAndPath("greenlight-test", "feature-" + COUNTER.incrementAndGet());
+    static ResourceLocation uniqueFeature() {
+        return ResourceLocation.fromNamespaceAndPath("greenlight-test", "feature-" + COUNTER.incrementAndGet());
     }
 
     static String uniqueSourceId() {

@@ -1,7 +1,7 @@
 package me.flashyreese.mods.greenlight.feature;
 
 import me.flashyreese.mods.greenlight.feature.spi.GreenlightProvider;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +30,9 @@ final class ClientFeaturePolicyManager {
 
     private static final Object ERROR_FINGERPRINT = new Object();
 
-    private static final Map<Identifier, ClientFeature<?>> FEATURES = new ConcurrentHashMap<>();
+    private static final Map<ResourceLocation, ClientFeature<?>> FEATURES = new ConcurrentHashMap<>();
     private static final List<SourceState> SOURCES = new ArrayList<>();
-    private static Map<Identifier, FeaturePolicy> mergedPolicies = Map.of();
+    private static Map<ResourceLocation, FeaturePolicy> mergedPolicies = Map.of();
     private static long generation;
 
     static {
@@ -42,7 +42,7 @@ final class ClientFeaturePolicyManager {
     private static final class SourceState {
         final FeaturePolicySource source;
         Object fingerprint;
-        Map<Identifier, FeaturePolicy> policies = Map.of();
+        Map<ResourceLocation, FeaturePolicy> policies = Map.of();
 
         SourceState(FeaturePolicySource source) {
             this.source = source;
@@ -71,16 +71,16 @@ final class ClientFeaturePolicyManager {
         rebuildMergedPolicies();
     }
 
-    static synchronized GreenlightProvider.PolicyQuery query(Identifier featureId) {
+    static synchronized GreenlightProvider.PolicyQuery query(ResourceLocation featureId) {
         refreshSources();
         return new GreenlightProvider.PolicyQuery(generation, mergedPolicies.get(featureId));
     }
 
-    static synchronized Set<Identifier> getGrantedFeatures() {
+    static synchronized Set<ResourceLocation> getGrantedFeatures() {
         refreshSources();
 
-        Set<Identifier> granted = new HashSet<>();
-        for (Map.Entry<Identifier, FeaturePolicy> entry : mergedPolicies.entrySet()) {
+        Set<ResourceLocation> granted = new HashSet<>();
+        for (Map.Entry<ResourceLocation, FeaturePolicy> entry : mergedPolicies.entrySet()) {
             if (entry.getValue().enabled()) {
                 granted.add(entry.getKey());
             }
@@ -126,9 +126,9 @@ final class ClientFeaturePolicyManager {
     }
 
     private static void rebuildMergedPolicies() {
-        Map<Identifier, FeaturePolicy> merged = new HashMap<>();
+        Map<ResourceLocation, FeaturePolicy> merged = new HashMap<>();
         for (SourceState state : SOURCES) {
-            for (Map.Entry<Identifier, FeaturePolicy> entry : state.policies.entrySet()) {
+            for (Map.Entry<ResourceLocation, FeaturePolicy> entry : state.policies.entrySet()) {
                 merged.putIfAbsent(entry.getKey(), entry.getValue());
             }
         }

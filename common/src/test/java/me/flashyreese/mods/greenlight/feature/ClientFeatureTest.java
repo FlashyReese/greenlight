@@ -1,6 +1,6 @@
 package me.flashyreese.mods.greenlight.feature;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -21,13 +21,13 @@ class ClientFeatureTest {
         return source;
     }
 
-    private static ClientFeature<Integer> registerFeature(Identifier id) {
+    private static ClientFeature<Integer> registerFeature(ResourceLocation id) {
         return Greenlight.feature(id).decoder(1, READ_N).register();
     }
 
     @Test
     void decodesGrantedPolicy() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         newSource().put(id, new FeaturePolicy(true, 1, settings("n", 42)));
         ClientFeature<Integer> feature = registerFeature(id);
 
@@ -44,7 +44,7 @@ class ClientFeatureTest {
 
     @Test
     void deniesSettingsVersionMismatch() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         newSource().put(id, new FeaturePolicy(true, 2, settings("n", 42)));
         ClientFeature<Integer> feature = registerFeature(id);
         assertFalse(feature.isAllowed());
@@ -52,7 +52,7 @@ class ClientFeatureTest {
 
     @Test
     void deniesDisabledPolicy() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         newSource().put(id, new FeaturePolicy(false, 1, settings("n", 42)));
         ClientFeature<Integer> feature = registerFeature(id);
         assertFalse(feature.isAllowed());
@@ -60,7 +60,7 @@ class ClientFeatureTest {
 
     @Test
     void failsClosedWhenDecoderThrows() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         newSource().put(id, new FeaturePolicy(true, 1, new com.google.gson.JsonObject()));
         ClientFeature<Integer> feature = registerFeature(id);
         assertFalse(feature.isAllowed());
@@ -68,7 +68,7 @@ class ClientFeatureTest {
 
     @Test
     void reflectsLivePolicyChange() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         FakePolicySource source = newSource();
         ClientFeature<Integer> feature = registerFeature(id);
 

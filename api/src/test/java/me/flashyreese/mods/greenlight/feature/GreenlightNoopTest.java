@@ -1,7 +1,7 @@
 package me.flashyreese.mods.greenlight.feature;
 
 import com.google.gson.JsonObject;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GreenlightNoopTest {
-    private static final Identifier FEATURE = Identifier.fromNamespaceAndPath("greenlight-test", "noop");
+    private static final ResourceLocation FEATURE = ResourceLocation.fromNamespaceAndPath("greenlight-test", "noop");
 
     @Test
     void apiFailsClosedWithoutRuntimeProvider() {
@@ -21,8 +21,8 @@ class GreenlightNoopTest {
 
         Greenlight.registerSource(new FeaturePolicySource() {
             @Override
-            public Identifier id() {
-                return Identifier.fromNamespaceAndPath("greenlight-test", "ignored");
+            public ResourceLocation id() {
+                return ResourceLocation.fromNamespaceAndPath("greenlight-test", "ignored");
             }
 
             @Override
@@ -36,7 +36,7 @@ class GreenlightNoopTest {
             }
 
             @Override
-            public Map<Identifier, FeaturePolicy> load() {
+            public Map<ResourceLocation, FeaturePolicy> load() {
                 return Map.of(FEATURE, new FeaturePolicy(true, 1, new JsonObject()));
             }
         });

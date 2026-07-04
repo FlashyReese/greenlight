@@ -16,14 +16,14 @@ A loader-neutral library for server-authorized gameplay-affecting client feature
 [[dependencies.greenlight]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.11,1.21.12)"
+versionRange = "[1.21,1.21.11)"
 ordering = "NONE"
 side = "CLIENT"
 
 [[dependencies.greenlight]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.11,21.12)"
+versionRange = "[21.0.167,21.11)"
 ordering = "NONE"
 side = "CLIENT"
 

@@ -6,10 +6,10 @@ plugins {
     id("net.fabricmc.fabric-loom-remap") version ("1.17.13") apply (false)
 }
 
-val MINECRAFT_VERSION by extra { "1.21.11" }
-val NEOFORGE_VERSION by extra { "21.11.42" }
+val MINECRAFT_VERSION by extra { "1.21.10" }
+val NEOFORGE_VERSION by extra { "21.10.64" }
 val FABRIC_LOADER_VERSION by extra { "0.19.3" }
-val FABRIC_API_VERSION by extra { "0.141.4+1.21.11" } // testmod only
+val FABRIC_API_VERSION by extra { "0.138.4+1.21.10" } // testmod only
 
 val MAVEN_GROUP by extra { "me.flashyreese.mods" }
 val ARCHIVE_NAME by extra { "greenlight" }

@@ -2,7 +2,7 @@ package me.flashyreese.mods.greenlight.feature;
 
 import com.google.gson.JsonObject;
 import me.flashyreese.mods.greenlight.feature.spi.GreenlightProvider;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +35,7 @@ import java.util.Set;
  * <p>Typical registration during client init:
  * <pre>{@code
  * public static final ClientFeature<MyPolicy> CAVE_TINT = Greenlight
- *         .feature(Identifier.fromNamespaceAndPath("examplemod", "cave_tint"))
+ *         .feature(ResourceLocation.fromNamespaceAndPath("examplemod", "cave_tint"))
  *         .decoder(1, MyPolicy::fromJson) // or PolicyDecoder.fromCodec(MyPolicy.CODEC)
  *         .register();
  *
@@ -73,7 +73,7 @@ public final class Greenlight {
      * @param featureId namespaced ID for the feature
      * @return a builder for registering the feature
      */
-    public static ClientFeature.Builder<JsonObject> feature(Identifier featureId) {
+    public static ClientFeature.Builder<JsonObject> feature(ResourceLocation featureId) {
         return new ClientFeature.Builder<>(featureId, 1, JsonObject::deepCopy);
     }
 
@@ -100,7 +100,7 @@ public final class Greenlight {
      * @param featureId feature to check
      * @return {@code true} when the feature is currently granted
      */
-    public static boolean isAllowed(Identifier featureId) {
+    public static boolean isAllowed(ResourceLocation featureId) {
         GreenlightProvider.PolicyQuery query = query(featureId);
         return query.policy() != null && query.policy().enabled();
     }
@@ -115,7 +115,7 @@ public final class Greenlight {
      * @param featureId feature to inspect
      * @return raw settings JSON, or empty when the feature is denied
      */
-    public static Optional<JsonObject> getSettings(Identifier featureId) {
+    public static Optional<JsonObject> getSettings(ResourceLocation featureId) {
         GreenlightProvider.PolicyQuery query = query(featureId);
         if (query.policy() == null || !query.policy().enabled()) {
             return Optional.empty();
@@ -133,7 +133,7 @@ public final class Greenlight {
      *
      * @return granted feature IDs
      */
-    public static Set<Identifier> getGrantedFeatures() {
+    public static Set<ResourceLocation> getGrantedFeatures() {
         return PROVIDER.getGrantedFeatures();
     }
 
@@ -141,15 +141,15 @@ public final class Greenlight {
         PROVIDER.registerFeature(feature);
     }
 
-    static GreenlightProvider.PolicyQuery query(Identifier featureId) {
+    static GreenlightProvider.PolicyQuery query(ResourceLocation featureId) {
         return PROVIDER.query(featureId);
     }
 
-    static void logDecodeFailure(Identifier featureId, Exception e) {
+    static void logDecodeFailure(ResourceLocation featureId, Exception e) {
         LOGGER.warn("Failed to decode policy settings for client feature {}; treating it as denied", featureId, e);
     }
 
-    static void logUnknownSchemaVersion(Identifier featureId, int settingsVersion) {
+    static void logUnknownSchemaVersion(ResourceLocation featureId, int settingsVersion) {
         LOGGER.warn("Server policy for client feature {} uses unknown settings_version {}; treating it as denied", featureId, settingsVersion);
     }
 
@@ -177,12 +177,12 @@ public final class Greenlight {
         }
 
         @Override
-        public PolicyQuery query(Identifier featureId) {
+        public PolicyQuery query(ResourceLocation featureId) {
             return EMPTY_QUERY;
         }
 
         @Override
-        public Set<Identifier> getGrantedFeatures() {
+        public Set<ResourceLocation> getGrantedFeatures() {
             return Set.of();
         }
     }

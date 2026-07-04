@@ -20,7 +20,7 @@ dependencies {
     api(project(":api"))
 
     // Unit tests run headless against the named Minecraft jar loom puts on the classpath,
-    // so they can reference Identifier, GsonHelper, etc. without launching the game.
+    // so they can reference ResourceLocation, GsonHelper, etc. without launching the game.
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.13.4")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.13.4")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.4")

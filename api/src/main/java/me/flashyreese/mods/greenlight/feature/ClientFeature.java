@@ -2,14 +2,14 @@ package me.flashyreese.mods.greenlight.feature;
 
 import com.google.gson.JsonObject;
 import me.flashyreese.mods.greenlight.feature.spi.GreenlightProvider;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Optional;
 
 /**
  * A handle for one Greenlight-controlled feature in your client mod.
  *
- * <p>Create one with {@link Greenlight#feature(Identifier)} during client init, then keep it
+ * <p>Create one with {@link Greenlight#feature(ResourceLocation)} during client init, then keep it
  * somewhere your feature code can reach. Query the handle when the feature would apply, such
  * as during a render event, tick hook, or option check. Do not store an allowed result across
  * worlds or servers.
@@ -20,14 +20,14 @@ import java.util.Optional;
  * @param <T> decoded settings type returned by your policy decoder
  */
 public final class ClientFeature<T> {
-    private final Identifier id;
+    private final ResourceLocation id;
     private final int schemaVersion;
     private final PolicyDecoder<T> decoder;
 
     private long cachedGeneration = Long.MIN_VALUE;
     private Optional<T> cachedPolicy = Optional.empty();
 
-    ClientFeature(Identifier id, int schemaVersion, PolicyDecoder<T> decoder) {
+    ClientFeature(ResourceLocation id, int schemaVersion, PolicyDecoder<T> decoder) {
         this.id = id;
         this.schemaVersion = schemaVersion;
         this.decoder = decoder;
@@ -38,7 +38,7 @@ public final class ClientFeature<T> {
      *
      * @return the feature ID registered by your mod
      */
-    public Identifier id() {
+    public ResourceLocation id() {
         return this.id;
     }
 
@@ -106,11 +106,11 @@ public final class ClientFeature<T> {
      * @param <T> decoded settings type returned by the current decoder
      */
     public static final class Builder<T> {
-        private final Identifier id;
+        private final ResourceLocation id;
         private final int schemaVersion;
         private final PolicyDecoder<T> decoder;
 
-        Builder(Identifier id, int schemaVersion, PolicyDecoder<T> decoder) {
+        Builder(ResourceLocation id, int schemaVersion, PolicyDecoder<T> decoder) {
             this.id = id;
             this.schemaVersion = schemaVersion;
             this.decoder = decoder;

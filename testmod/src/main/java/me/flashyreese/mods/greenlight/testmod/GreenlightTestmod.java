@@ -4,7 +4,7 @@ import me.flashyreese.mods.greenlight.feature.ClientFeature;
 import me.flashyreese.mods.greenlight.feature.Greenlight;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +16,14 @@ public class GreenlightTestmod implements ClientModInitializer {
     }
 
     public static final ClientFeature<SamplePolicy> SAMPLE = Greenlight
-            .feature(Identifier.fromNamespaceAndPath("greenlight-test", "sample"))
+            .feature(ResourceLocation.fromNamespaceAndPath("greenlight-test", "sample"))
             .decoder(1, json -> new SamplePolicy(GsonHelper.getAsInt(json, "max", 0)))
             .register();
 
     // Only ever declared by this mod's own (client-side) resources, never by a server pack.
     // The gametest uses it to prove a client-side pack cannot grant a feature.
     public static final ClientFeature<SamplePolicy> LOCAL_ONLY = Greenlight
-            .feature(Identifier.fromNamespaceAndPath("greenlight-test", "local_only"))
+            .feature(ResourceLocation.fromNamespaceAndPath("greenlight-test", "local_only"))
             .decoder(1, json -> new SamplePolicy(GsonHelper.getAsInt(json, "max", 0)))
             .register();
 

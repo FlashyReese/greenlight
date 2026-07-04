@@ -9,7 +9,7 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +40,8 @@ import java.util.zip.ZipOutputStream;
 public class GreenlightClientGametest implements FabricClientGameTest {
     private static final Logger LOGGER = LoggerFactory.getLogger("greenlight-gametest");
     private static final int EXPECTED_MAX = 16;
-    private static final Identifier LOCAL_ONLY_POLICY_RESOURCE =
-            Identifier.fromNamespaceAndPath("greenlight-test", "client_features/v1/local_only.json");
+    private static final ResourceLocation LOCAL_ONLY_POLICY_RESOURCE =
+            ResourceLocation.fromNamespaceAndPath("greenlight-test", "client_features/v1/local_only.json");
     // Connecting, downloading the required pack over HTTP, and the client resource reload it
     // triggers all happen before the world loads. The wait is tick-based, but the client can
     // idle-tick quickly through the budget while a slow reload runs in wall time, so keep this
@@ -163,8 +163,10 @@ public class GreenlightClientGametest implements FabricClientGameTest {
                     {
                       "pack": {
                         "description": "Greenlight gametest policy",
-                        "min_format": [75, 0],
-                        "max_format": [75, 0]
+                        "pack_format": 34,
+                        "supported_formats": [34, 69],
+                        "min_format": [34, 0],
+                        "max_format": [69, 0]
                       }
                     }
                     """);

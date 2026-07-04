@@ -2,7 +2,7 @@ package me.flashyreese.mods.greenlight.feature;
 
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.packs.repository.PackSource;
@@ -28,13 +28,13 @@ import java.util.Map;
  * the fingerprint changes and the grant disappears.
  */
 final class ResourcePackPolicySource implements FeaturePolicySource {
-    private static final Identifier ID = Identifier.fromNamespaceAndPath("greenlight", "server_resource_pack");
+    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("greenlight", "server_resource_pack");
     private static final String RESOURCE_ROOT = "client_features/v1";
     private static final String JSON_SUFFIX = ".json";
     private static final int PROTOCOL_VERSION = 1;
 
     @Override
-    public Identifier id() {
+    public ResourceLocation id() {
         return ID;
     }
 
@@ -50,14 +50,14 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
     }
 
     @Override
-    public Map<Identifier, FeaturePolicy> load() {
+    public Map<ResourceLocation, FeaturePolicy> load() {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft == null) {
             return Map.of();
         }
 
         List<String> trustedPackIds = collectTrustedServerPackIds(minecraft.getResourcePackRepository());
-        Map<Identifier, FeaturePolicy> policies = scanPolicies(minecraft.getResourceManager(), trustedPackIds);
+        Map<ResourceLocation, FeaturePolicy> policies = scanPolicies(minecraft.getResourceManager(), trustedPackIds);
         if (!policies.isEmpty()) {
             ClientFeaturePolicyManager.LOGGER.info("Loaded server client-feature policies: {}", policies.keySet());
         }
@@ -77,19 +77,19 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
         return trustedPackIds;
     }
 
-    private static Map<Identifier, FeaturePolicy> scanPolicies(ResourceManager resourceManager, List<String> trustedPackIds) {
+    private static Map<ResourceLocation, FeaturePolicy> scanPolicies(ResourceManager resourceManager, List<String> trustedPackIds) {
         if (trustedPackIds.isEmpty()) {
             return Map.of();
         }
 
-        Map<Identifier, FeaturePolicy> policies = new HashMap<>();
-        Map<Identifier, List<Resource>> resourceStacks = resourceManager.listResourceStacks(
+        Map<ResourceLocation, FeaturePolicy> policies = new HashMap<>();
+        Map<ResourceLocation, List<Resource>> resourceStacks = resourceManager.listResourceStacks(
                 RESOURCE_ROOT,
                 id -> id.getPath().endsWith(JSON_SUFFIX)
         );
 
-        for (Map.Entry<Identifier, List<Resource>> entry : resourceStacks.entrySet()) {
-            Identifier featureId = parseFeatureId(entry.getKey());
+        for (Map.Entry<ResourceLocation, List<Resource>> entry : resourceStacks.entrySet()) {
+            ResourceLocation featureId = parseFeatureId(entry.getKey());
             if (featureId == null) {
                 continue;
             }
@@ -115,7 +115,7 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
         return policies;
     }
 
-    private static Identifier parseFeatureId(Identifier resourceId) {
+    private static ResourceLocation parseFeatureId(ResourceLocation resourceId) {
         String path = resourceId.getPath();
         String prefix = RESOURCE_ROOT + "/";
         if (!path.startsWith(prefix) || !path.endsWith(JSON_SUFFIX)) {
@@ -127,10 +127,10 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
             return null;
         }
 
-        return Identifier.tryBuild(resourceId.getNamespace(), featurePath);
+        return ResourceLocation.tryBuild(resourceId.getNamespace(), featurePath);
     }
 
-    private static FeaturePolicy readPolicy(Identifier resourceId, Identifier featureId, Resource resource) {
+    private static FeaturePolicy readPolicy(ResourceLocation resourceId, ResourceLocation featureId, Resource resource) {
         try (BufferedReader reader = resource.openAsReader()) {
             return parsePolicy(GsonHelper.parse(reader), featureId, resource.sourcePackId());
         } catch (IOException | RuntimeException e) {
@@ -146,7 +146,7 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
      * <p>Malformed envelopes return {@code null} so the feature fails closed. Package-private
      * for unit tests. {@code source} is only used in warning messages.
      */
-    static FeaturePolicy parsePolicy(JsonObject json, Identifier featureId, String source) {
+    static FeaturePolicy parsePolicy(JsonObject json, ResourceLocation featureId, String source) {
         int protocolVersion = GsonHelper.getAsInt(json, "protocol_version", -1);
         if (protocolVersion != PROTOCOL_VERSION) {
             ClientFeaturePolicyManager.LOGGER.warn("Ignoring client-feature policy {} from '{}': unsupported protocol_version {}",

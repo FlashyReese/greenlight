@@ -1,7 +1,7 @@
 package me.flashyreese.mods.greenlight.feature;
 
 import com.google.gson.JsonObject;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;
 
 import static me.flashyreese.mods.greenlight.feature.TestSupport.envelope;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PolicyEnvelopeTest {
-    private static final Identifier FEATURE = Identifier.fromNamespaceAndPath("greenlight-test", "cave_tint");
+    private static final ResourceLocation FEATURE = ResourceLocation.fromNamespaceAndPath("greenlight-test", "cave_tint");
     private static final String FEATURE_ID = "greenlight-test:cave_tint";
 
     private static FeaturePolicy parse(JsonObject json) {

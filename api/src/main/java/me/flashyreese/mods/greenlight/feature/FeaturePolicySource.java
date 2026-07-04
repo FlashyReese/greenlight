@@ -1,6 +1,6 @@
 package me.flashyreese.mods.greenlight.feature;
 
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public interface FeaturePolicySource {
      *
      * @return the source ID
      */
-    Identifier id();
+    ResourceLocation id();
 
     /**
      * Merge priority for this source.
@@ -58,5 +58,5 @@ public interface FeaturePolicySource {
      *
      * @return policies keyed by feature ID
      */
-    Map<Identifier, FeaturePolicy> load();
+    Map<ResourceLocation, FeaturePolicy> load();
 }

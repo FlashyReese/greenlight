@@ -1,7 +1,7 @@
 package me.flashyreese.mods.greenlight.feature;
 
 import com.google.gson.JsonObject;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;
 
 import static me.flashyreese.mods.greenlight.feature.TestSupport.settings;
@@ -20,7 +20,7 @@ class PolicyStoreTest {
 
     @Test
     void higherPrioritySourceWins() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         source(1).put(id, new FeaturePolicy(true, 1, settings("n", 1)));
         source(2).put(id, new FeaturePolicy(true, 1, settings("n", 2)));
 
@@ -29,7 +29,7 @@ class PolicyStoreTest {
 
     @Test
     void disabledHigherPriorityRevokesLowerGrant() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         source(1).put(id, new FeaturePolicy(true, 1, settings("n", 1)));
         source(2).put(id, new FeaturePolicy(false, 1, new JsonObject()));
 
@@ -39,7 +39,7 @@ class PolicyStoreTest {
 
     @Test
     void failsClosedWhenSourceThrows() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         FakePolicySource source = source(5);
         source.put(id, new FeaturePolicy(true, 1, settings("n", 1)));
         source.throwOnLoad = true;
@@ -49,8 +49,8 @@ class PolicyStoreTest {
 
     @Test
     void getGrantedFeaturesListsEnabledOnly() {
-        Identifier enabled = uniqueFeature();
-        Identifier disabled = uniqueFeature();
+        ResourceLocation enabled = uniqueFeature();
+        ResourceLocation disabled = uniqueFeature();
         FakePolicySource source = source(5);
         source.put(enabled, new FeaturePolicy(true, 1, new JsonObject()));
         source.put(disabled, new FeaturePolicy(false, 1, new JsonObject()));
@@ -61,7 +61,7 @@ class PolicyStoreTest {
 
     @Test
     void getSettingsReturnsDefensiveCopy() {
-        Identifier id = uniqueFeature();
+        ResourceLocation id = uniqueFeature();
         source(5).put(id, new FeaturePolicy(true, 1, settings("n", 5)));
 
         JsonObject first = Greenlight.getSettings(id).orElseThrow();
