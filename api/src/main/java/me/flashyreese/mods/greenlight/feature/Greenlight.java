@@ -35,7 +35,7 @@ import java.util.Set;
  * <p>Typical registration during client init:
  * <pre>{@code
  * public static final ClientFeature<MyPolicy> CAVE_TINT = Greenlight
- *         .feature(ResourceLocation.fromNamespaceAndPath("examplemod", "cave_tint"))
+ *         .feature(ResourceLocation.tryParse("examplemod:cave_tint"))
  *         .decoder(1, MyPolicy::fromJson) // or PolicyDecoder.fromCodec(MyPolicy.CODEC)
  *         .register();
  *

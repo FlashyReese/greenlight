@@ -28,7 +28,7 @@ import java.util.Map;
  * the fingerprint changes and the grant disappears.
  */
 final class ResourcePackPolicySource implements FeaturePolicySource {
-    private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath("greenlight", "server_resource_pack");
+    private static final ResourceLocation ID = ResourceLocation.tryParse("greenlight:server_resource_pack");
     private static final String RESOURCE_ROOT = "client_features/v1";
     private static final String JSON_SUFFIX = ".json";
     private static final int PROTOCOL_VERSION = 1;
@@ -127,7 +127,7 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
             return null;
         }
 
-        return ResourceLocation.tryBuild(resourceId.getNamespace(), featurePath);
+        return ResourceLocation.tryParse(resourceId.getNamespace() + ":" + featurePath);
     }
 
     private static FeaturePolicy readPolicy(ResourceLocation resourceId, ResourceLocation featureId, Resource resource) {

@@ -16,7 +16,7 @@ final class TestSupport {
     }
 
     static ResourceLocation uniqueFeature() {
-        return ResourceLocation.fromNamespaceAndPath("greenlight-test", "feature-" + COUNTER.incrementAndGet());
+        return ResourceLocation.tryParse("greenlight-test:feature-" + COUNTER.incrementAndGet());
     }
 
     static String uniqueSourceId() {

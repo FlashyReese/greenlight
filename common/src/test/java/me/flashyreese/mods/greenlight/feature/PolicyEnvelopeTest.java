@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PolicyEnvelopeTest {
-    private static final ResourceLocation FEATURE = ResourceLocation.fromNamespaceAndPath("greenlight-test", "cave_tint");
+    private static final ResourceLocation FEATURE = ResourceLocation.tryParse("greenlight-test:cave_tint");
     private static final String FEATURE_ID = "greenlight-test:cave_tint";
 
     private static FeaturePolicy parse(JsonObject json) {

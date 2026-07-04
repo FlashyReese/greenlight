@@ -79,7 +79,7 @@ Malformed files fail closed. Greenlight logs the problem and treats the feature 
 Register exactly one settings version for each feature handle:
 
 ```java
-Greenlight.feature(Identifier.fromNamespaceAndPath("examplemod", "cave_tint"))
+Greenlight.feature(ResourceLocation.tryParse("examplemod:cave_tint"))
         .decoder(1, CaveTintPolicy::fromJson)
         .register();
 ```

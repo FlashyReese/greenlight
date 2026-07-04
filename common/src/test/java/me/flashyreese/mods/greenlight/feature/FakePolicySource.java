@@ -18,7 +18,7 @@ final class FakePolicySource implements FeaturePolicySource {
     boolean throwOnLoad = false;
 
     FakePolicySource(String id, int priority) {
-        this.id = ResourceLocation.fromNamespaceAndPath("greenlight-test", id);
+        this.id = ResourceLocation.tryParse("greenlight-test:" + id);
         this.priority = priority;
     }
 

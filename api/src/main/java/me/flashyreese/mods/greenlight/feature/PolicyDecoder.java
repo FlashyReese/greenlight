@@ -32,6 +32,12 @@ public interface PolicyDecoder<T> {
      * @return policy decoder backed by the codec
      */
     static <T> PolicyDecoder<T> fromCodec(Codec<T> codec) {
-        return settings -> codec.parse(JsonOps.INSTANCE, settings).getOrThrow();
+        return settings -> {
+            String[] error = new String[1];
+            return codec.parse(JsonOps.INSTANCE, settings)
+                    .resultOrPartial(message -> error[0] = message)
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            error[0] != null ? error[0] : "Malformed policy settings"));
+        };
     }
 }

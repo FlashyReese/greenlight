@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GreenlightNoopTest {
-    private static final ResourceLocation FEATURE = ResourceLocation.fromNamespaceAndPath("greenlight-test", "noop");
+    private static final ResourceLocation FEATURE = ResourceLocation.tryParse("greenlight-test:noop");
 
     @Test
     void apiFailsClosedWithoutRuntimeProvider() {
@@ -22,7 +22,7 @@ class GreenlightNoopTest {
         Greenlight.registerSource(new FeaturePolicySource() {
             @Override
             public ResourceLocation id() {
-                return ResourceLocation.fromNamespaceAndPath("greenlight-test", "ignored");
+                return ResourceLocation.tryParse("greenlight-test:ignored");
             }
 
             @Override

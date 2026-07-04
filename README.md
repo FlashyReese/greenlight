@@ -38,7 +38,7 @@ Minimal feature registration:
 
 ```java
 public static final ClientFeature<CaveTintPolicy> CAVE_TINT = Greenlight
-        .feature(Identifier.fromNamespaceAndPath("examplemod", "cave_tint"))
+        .feature(ResourceLocation.tryParse("examplemod:cave_tint"))
         .decoder(1, CaveTintPolicy::fromJson)
         .register();
 ```

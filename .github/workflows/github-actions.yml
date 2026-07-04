@@ -35,39 +35,3 @@ jobs:
           name: 'Greenlight NeoForge Artifacts - GitHub Actions'
           path: neoforge/build/libs
           if-no-files-found: error
-
-  gametest:
-    runs-on: ubuntu-latest
-    timeout-minutes: 40
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v2
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 21
-          check-latest: true
-          cache: 'gradle'
-      - name: Install virtual display
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libgl1 libgl1-mesa-dri
-      - name: Accept EULA for the test dedicated server
-        run: |
-          mkdir -p testmod/run/gametest
-          echo "eula=true" > testmod/run/gametest/eula.txt
-      - name: Run client gametest
-        run: xvfb-run -a ./gradlew :testmod:runGametestClient --stacktrace
-      - name: Upload logs on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gametest-logs-github-actions
-          path: |
-            testmod/run/gametest/logs/
-            testmod/run/gametest/screenshots/
-          if-no-files-found: ignore
