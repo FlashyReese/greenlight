@@ -29,9 +29,3 @@ jobs:
           name: 'Greenlight Fabric Artifacts - GitHub Actions'
           path: fabric/build/libs
           if-no-files-found: error
-      - name: Upload Build Artifacts - NeoForge
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'Greenlight NeoForge Artifacts - GitHub Actions'
-          path: neoforge/build/libs
-          if-no-files-found: error

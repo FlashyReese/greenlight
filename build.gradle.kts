@@ -6,10 +6,9 @@ plugins {
     id("net.fabricmc.fabric-loom-remap") version ("1.17.13") apply (false)
 }
 
-val MINECRAFT_VERSION by extra { "1.20.4" }
-val NEOFORGE_VERSION by extra { "20.4.251" }
+val MINECRAFT_VERSION by extra { "1.18.2" }
 val FABRIC_LOADER_VERSION by extra { "0.19.3" }
-val FABRIC_API_VERSION by extra { "0.97.3+1.20.4" } // testmod only
+val FABRIC_API_VERSION by extra { "0.77.0+1.18.2" } // testmod only
 
 val MAVEN_GROUP by extra { "me.flashyreese.mods" }
 val ARCHIVE_NAME by extra { "greenlight" }
@@ -34,7 +33,6 @@ subprojects {
     repositories {
         maven("https://maven.fabricmc.net/")
         maven("https://maven.parchmentmc.org/")
-        maven("https://maven.neoforged.net/releases/")
         maven("https://libraries.minecraft.net")
     }
 

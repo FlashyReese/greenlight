@@ -12,6 +12,9 @@ import net.minecraft.util.GsonHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,10 +86,7 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
         }
 
         Map<ResourceLocation, FeaturePolicy> policies = new HashMap<>();
-        Map<ResourceLocation, List<Resource>> resourceStacks = resourceManager.listResourceStacks(
-                RESOURCE_ROOT,
-                id -> id.getPath().endsWith(JSON_SUFFIX)
-        );
+        Map<ResourceLocation, List<Resource>> resourceStacks = listResourceStacks(resourceManager);
 
         for (Map.Entry<ResourceLocation, List<Resource>> entry : resourceStacks.entrySet()) {
             ResourceLocation featureId = parseFeatureId(entry.getKey());
@@ -100,7 +100,7 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
             List<Resource> stack = entry.getValue();
             for (int i = stack.size() - 1; i >= 0; i--) {
                 Resource resource = stack.get(i);
-                if (!trustedPackIds.contains(resource.sourcePackId())) {
+                if (!trustedPackIds.contains(resource.getSourceName())) {
                     continue;
                 }
 
@@ -113,6 +113,18 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
         }
 
         return policies;
+    }
+
+    private static Map<ResourceLocation, List<Resource>> listResourceStacks(ResourceManager resourceManager) {
+        Map<ResourceLocation, List<Resource>> stacks = new HashMap<>();
+        for (ResourceLocation resourceId : resourceManager.listResources(RESOURCE_ROOT, path -> path.endsWith(JSON_SUFFIX))) {
+            try {
+                stacks.put(resourceId, resourceManager.getResources(resourceId));
+            } catch (IOException e) {
+                ClientFeaturePolicyManager.LOGGER.warn("Failed to scan client-feature policy resource {}", resourceId, e);
+            }
+        }
+        return stacks;
     }
 
     private static ResourceLocation parseFeatureId(ResourceLocation resourceId) {
@@ -131,11 +143,12 @@ final class ResourcePackPolicySource implements FeaturePolicySource {
     }
 
     private static FeaturePolicy readPolicy(ResourceLocation resourceId, ResourceLocation featureId, Resource resource) {
-        try (BufferedReader reader = resource.openAsReader()) {
-            return parsePolicy(GsonHelper.parse(reader), featureId, resource.sourcePackId());
+        try (InputStream inputStream = resource.getInputStream();
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            return parsePolicy(GsonHelper.parse(reader), featureId, resource.getSourceName());
         } catch (IOException | RuntimeException e) {
             ClientFeaturePolicyManager.LOGGER.warn("Ignoring malformed client-feature policy {} from pack '{}'",
-                    resourceId, resource.sourcePackId(), e);
+                    resourceId, resource.getSourceName(), e);
             return null;
         }
     }

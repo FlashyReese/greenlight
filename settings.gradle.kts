@@ -3,7 +3,6 @@ rootProject.name = "greenlight"
 pluginManagement {
     repositories {
         maven { url = uri("https://maven.fabricmc.net/") }
-        maven { url = uri("https://maven.neoforged.net/releases/") }
         gradlePluginPortal()
     }
 }
@@ -11,5 +10,4 @@ pluginManagement {
 include("common")
 include("api")
 include("fabric")
-include("neoforge")
 include("testmod")
