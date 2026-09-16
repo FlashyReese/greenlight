@@ -3,13 +3,13 @@ import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 
 plugins {
     id("java")
-    id("net.fabricmc.fabric-loom") version ("1.17.11") apply (false)
+    id("net.fabricmc.fabric-loom") version ("1.17.20") apply (false)
 }
 
-val MINECRAFT_VERSION by extra { "26.2" }
-val NEOFORGE_VERSION by extra { "26.2.0.1-beta" }
-val FABRIC_LOADER_VERSION by extra { "0.19.3" }
-val FABRIC_API_VERSION by extra { "0.152.1+26.2" } // testmod only
+val MINECRAFT_VERSION by extra { "26.3" }
+val NEOFORGE_VERSION by extra { "26.3.0.1-beta" }
+val FABRIC_LOADER_VERSION by extra { "0.19.5" }
+val FABRIC_API_VERSION by extra { "0.160.5+26.3" } // testmod only
 
 val MAVEN_GROUP by extra { "me.flashyreese.mods" }
 val ARCHIVE_NAME by extra { "greenlight" }
