@@ -1,0 +1,76 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[7.0.17,8)'
+}
+
+evaluationDependsOn(':api')
+evaluationDependsOn(':common')
+
+def apiProject = project(':api')
+def commonProject = project(':common')
+def modVersion = rootProject.ext.MOD_VERSION
+def mcVersion = rootProject.ext.MINECRAFT_VERSION
+
+base {
+    archivesName = "${rootProject.ext.ARCHIVE_NAME}-forge"
+}
+
+version = ''
+group = rootProject.ext.MAVEN_GROUP
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 25
+}
+
+minecraft {
+    runs {
+        register('client') {
+            workingDir = layout.projectDirectory.dir('run')
+            systemProperty 'eventbus.api.strictRuntimeChecks', 'true'
+        }
+    }
+}
+
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+}
+
+dependencies {
+    implementation minecraft.dependency("net.minecraftforge:forge:${mcVersion}-65.1.0")
+}
+
+// The neoforge module compiles the api and common sources straight in rather than depending on
+// their jars; the same is done here so the Forge jar is self-contained.
+tasks.named('compileJava', JavaCompile) {
+    source apiProject.sourceSets.main.allSource
+    source commonProject.sourceSets.main.allSource
+}
+
+tasks.named('processResources', ProcessResources) {
+    from apiProject.sourceSets.main.resources
+    from commonProject.sourceSets.main.resources
+
+    inputs.property 'version', modVersion
+
+    filesMatching('META-INF/mods.toml') {
+        expand(['version': modVersion])
+    }
+
+    exclude 'META-INF/neoforge.mods.toml'
+    exclude 'fabric.mod.json'
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from rootDir.toPath().resolve('LICENSE').toFile()
+
+    destinationDirectory = file(rootProject.layout.buildDirectory).toPath().resolve('mods').toFile()
+}
